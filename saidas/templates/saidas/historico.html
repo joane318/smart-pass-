@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de Saídas</title>
+</head>
+
+<body>
+
+    <h1>📋 Histórico de Saídas</h1>
+
+    {% if saidas %}
+
+        <table border="1">
+            <tr>
+                <th>Aluno</th>
+                <th>Turma</th>
+                <th>Matrícula</th>
+                <th>Motivo</th>
+                <th>Responsável</th>
+                <th>Data</th>
+                <th>Horário</th>
+            </tr>
+
+            {% for saida in saidas %}
+            <tr>
+                <td>{{ saida.aluno.nome }}</td>
+                <td>{{ saida.aluno.turma }}</td>
+                <td>{{ saida.aluno.matricula }}</td>
+                <td>{{ saida.motivo }}</td>
+                <td>{{ saida.responsavel }}</td>
+                <td>{{ saida.data }}</td>
+                <td>{{ saida.horario }}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    {% else %}
+
+        <p>Nenhuma saída registrada.</p>
+
+    {% endif %}
+
+</body>
+</html>
