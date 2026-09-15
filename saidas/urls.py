@@ -1,7 +1,13 @@
 from django.urls import path
-from .views import registrar_saida, historico
+from . import views
 
 urlpatterns = [
-    path("saida/", registrar_saida, name="registrar_saida"),
-    path("historico/", historico, name="historico"),
+    path("", views.inicio, name="inicio"),
+    path("saida/", views.registrar_saida, name="registrar_saida"),
+    path("historico/", views.historico, name="historico"),
 ]
+
+
+
+
+

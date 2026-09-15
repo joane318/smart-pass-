@@ -1,4 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
+
 from .models import Aluno, Saida
 
 
@@ -31,5 +33,44 @@ def registrar_saida(request):
 
 
 def historico(request):
-    saidas = Saida.objects.all().order_by('-data', '-horario')
-    return render(request, 'saidas/historico.html', {'saidas': saidas})
+    busca = request.GET.get("busca", "")
+
+    saidas = Saida.objects.select_related("aluno").all().order_by(
+        "-data", "-horario"
+    )
+
+    if busca:
+        saidas = saidas.filter(
+            aluno__nome__icontains=busca
+        ) | saidas.filter(
+            aluno__matricula__icontains=busca
+        )
+
+    return render(request, "saidas/historico.html", {
+        "saidas": saidas,
+        "busca": busca,
+    })
+
+
+def inicio(request):
+    hoje = timezone.localdate()
+
+    total_alunos = Aluno.objects.count()
+    total_saidas = Saida.objects.count()
+    saidas_hoje = Saida.objects.filter(data=hoje).count()
+
+    ultimas_saidas = Saida.objects.select_related("aluno").order_by(
+        "-data", "-horario"
+    )[:5]
+
+    return render(request, "saidas/inicio.html", {
+        "total_alunos": total_alunos,
+        "total_saidas": total_saidas,
+        "saidas_hoje": saidas_hoje,
+        "ultimas_saidas": ultimas_saidas,
+    })
+
+
+
+
+
