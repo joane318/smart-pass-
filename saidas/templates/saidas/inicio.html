@@ -6,42 +6,58 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Smart Pass - Histórico</title>
+    <title>Smart Pass - Painel</title>
     <link rel="stylesheet" href="{% static 'saidas/style.css' %}">
 </head>
 
 <body>
 
 <h1>SMART PASS</h1>
-<h2>Histórico de Saídas</h2>
+<h2>Painel do Sistema</h2>
 
 <hr>
 
-<form method="get">
-    <input
-        type="text"
-        name="busca"
-        placeholder="Buscar aluno ou matrícula"
-        value="{{ busca }}"
-    >
+<h3>Resumo</h3>
+
+<div class="cards">
 
 
-<button type="submit">Buscar</button>
+<div class="card">
+    <h2>ALUNOS</h2>
+    <h3>Total de alunos</h3>
+    <p>{{ total_alunos }}</p>
+</div>
+
+<div class="card">
+    <h2>SAIDAS</h2>
+    <h3>Total de saídas</h3>
+    <p>{{ total_saidas }}</p>
+</div>
+
+<div class="card">
+    <h2>HOJE</h2>
+    <h3>Saídas de hoje</h3>
+    <p>{{ saidas_hoje }}</p>
+</div>
 
 
-</form>
+</div>
 
-<br>
+<hr>
 
-<a href="{% url 'inicio' %}">
-    Voltar ao painel
-</a>
+<h3>Ações</h3>
 
 <a href="{% url 'registrar_saida' %}">
     Registrar saída
 </a>
 
+<a href="{% url 'historico' %}">
+    Ver histórico
+</a>
+
 <hr>
+
+<h3>Últimas saídas</h3>
 
 <table>
     <tr>
@@ -54,7 +70,7 @@
     </tr>
 
 
-{% for saida in saidas %}
+{% for saida in ultimas_saidas %}
 <tr>
     <td>{{ saida.aluno.nome }}</td>
     <td>{{ saida.aluno.turma }}</td>
@@ -64,7 +80,6 @@
     <td>{{ saida.horario }}</td>
 </tr>
 {% endfor %}
-
 
 </table>
 

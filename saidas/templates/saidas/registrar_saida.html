@@ -1,37 +1,60 @@
+{% load static %}
+
 <!DOCTYPE html>
+
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
-    <title>Registrar saída</title>
+    <title>Smart Pass - Registrar Saída</title>
+
+
+<link rel="stylesheet" href="{% static 'saidas/style.css' %}">
+
+
 </head>
 
 <body>
 
-    <h1>Registrar saída do aluno</h1>
+<h1>SMART PASS</h1>
 
-    <form method="POST">
-        {% csrf_token %}
+<h2>Registrar saída do aluno</h2>
 
-        <label>QR Code:</label>
-        <br>
-        <input type="text" name="qr_code" required>
+<hr>
 
-        <br><br>
+<form method="POST">
 
-        <label>Motivo:</label>
-        <br>
-        <textarea name="motivo" required></textarea>
 
-        <br><br>
+{% csrf_token %}
 
-        <label>Responsável:</label>
-        <br>
-        <input type="text" name="responsavel" required>
+<label>QR Code:</label>
+<br>
+<input type="text" name="qr_code" required>
 
-        <br><br>
+<br><br>
 
-        <button type="submit">Registrar saída</button>
-    </form>
+<label>Motivo:</label>
+<br>
+<textarea name="motivo" required></textarea>
+
+<br><br>
+
+<label>Responsável:</label>
+<br>
+<input type="text" name="responsavel" required>
+
+<br><br>
+
+<button type="submit">Registrar saída</button>
+
+
+</form>
+
+<hr>
+
+<a href="{% url 'inicio' %}">Voltar ao painel</a>
+
+<a href="{% url 'historico' %}">Ver histórico</a>
 
 </body>
 </html>
