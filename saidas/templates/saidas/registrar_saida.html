@@ -15,6 +15,15 @@
 </head>
 
 <body>
+<header class="topo">
+    <div class="logo">SMART PASS</div>
+
+    <nav>
+        <a href="{% url 'inicio' %}">Painel</a>
+        <a href="{% url 'registrar_saida' %}">Registrar saída</a>
+        <a href="{% url 'historico' %}">Histórico</a>
+    </nav>
+</header>
 
 <h1>SMART PASS</h1>
 
@@ -57,4 +66,5 @@
 <a href="{% url 'historico' %}">Ver histórico</a>
 
 </body>
+
 </html>

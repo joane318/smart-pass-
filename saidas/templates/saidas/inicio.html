@@ -12,8 +12,20 @@
 
 <body>
 
-<h1>SMART PASS</h1>
-<h2>Painel do Sistema</h2>
+
+<header class="topo">
+    <div class="logo">SMART PASS</div>
+
+    <nav>
+        <a href="{% url 'inicio' %}">Painel</a>
+        <a href="{% url 'registrar_saida' %}">Registrar saída</a>
+        <a href="{% url 'historico' %}">Histórico</a>
+    </nav>
+</header>
+<div class="titulo-painel">
+    <h1>SMART PASS</h1>
+    <p>Sistema de controle de saídas escolares</p>
+</div>
 
 <hr>
 
@@ -22,19 +34,19 @@
 <div class="cards">
 
 
-<div class="card">
+<div class="card card-alunos">
     <h2>ALUNOS</h2>
     <h3>Total de alunos</h3>
     <p>{{ total_alunos }}</p>
 </div>
 
-<div class="card">
+<div class="card card-saidas">
     <h2>SAIDAS</h2>
     <h3>Total de saídas</h3>
     <p>{{ total_saidas }}</p>
 </div>
 
-<div class="card">
+<div class="card card-hoje">
     <h2>HOJE</h2>
     <h3>Saídas de hoje</h3>
     <p>{{ saidas_hoje }}</p>
