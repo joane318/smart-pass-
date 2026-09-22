@@ -1,0 +1,295 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4faf7;
+    margin: 0;
+    padding: 30px;
+    color: #123c2a;
+}
+
+/* TITULOS */
+
+h1 {
+    text-align: center;
+    font-size: 38px;
+    color: #075e3f;
+    margin-bottom: 5px;
+}
+
+h2 {
+    text-align: center;
+    color: #087f5b;
+}
+
+h3 {
+    margin-top: 25px;
+    color: #075e3f;
+}
+
+/* LINHAS */
+
+hr {
+    border: none;
+    border-top: 2px solid #b7dfc9;
+    margin: 25px 0;
+}
+
+/* MENU */
+
+.topo {
+    background: #064e3b;
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px #b8d4e8;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.topo nav {
+    display: flex;
+    gap: 8px;
+}
+
+.topo nav a {
+    background: #087f5b;
+    color: white;
+    padding: 10px 15px;
+    margin: 0;
+    border-radius: 7px;
+}
+
+.topo nav a:hover {
+    background: #0066cc;
+}
+
+/* TITULO DO PAINEL */
+
+.titulo-painel {
+    text-align: center;
+    margin: 20px 0 30px;
+}
+
+.titulo-painel h1 {
+    margin-bottom: 5px;
+}
+
+.titulo-painel p {
+    color: #0066cc;
+    font-size: 17px;
+    margin-top: 5px;
+}
+
+/* CARDS */
+
+.cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    width: 220px;
+    padding: 25px 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px #c5d9ee;
+    border-top: 5px solid #087f5b;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px #b8d4e8;
+}
+
+.card h2 {
+    color: #075e3f;
+}
+
+.card h3 {
+    color: #555;
+    font-size: 15px;
+    margin-top: 8px;
+}
+
+.card p {
+    font-size: 32px;
+    font-weight: bold;
+    color: #087f5b;
+    margin: 12px;
+}
+
+.card-alunos {
+    border-top-color: #064e3b;
+}
+
+.card-saidas {
+    border-top-color: #087f5b;
+}
+
+.card-hoje {
+    border-top-color: #0066cc;
+}
+
+.card-alunos p {
+    color: #064e3b;
+}
+
+.card-saidas p {
+    color: #087f5b;
+}
+
+.card-hoje p {
+    color: #0066cc;
+}
+
+/* BOTOES */
+
+a,
+button {
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 5px;
+    background: #075e3f;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+a:hover,
+button:hover {
+    transform: translateY(-2px);
+    background: #0066cc;
+    box-shadow: 0 4px 10px #b8d4e8;
+}
+
+/* FORMULARIO */
+
+form {
+    background: white;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px #c5d9ee;
+    border-top: 5px solid #0066cc;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 7px;
+    margin-bottom: 10px;
+    border: 1px solid #9fd3b5;
+    border-radius: 7px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border: 2px solid #0066cc;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* TABELA */
+
+table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    margin-top: 15px;
+    box-shadow: 0 4px 15px #c5d9ee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: #064e3b;
+    color: white;
+    font-weight: bold;
+}
+
+th,
+td {
+    padding: 12px;
+    border: 1px solid #b7dfc9;
+    text-align: center;
+}
+
+td {
+    color: #173b2b;
+}
+
+tr:hover {
+    background: #e8f4ff;
+}
+
+/* CELULAR */
+
+@media (max-width: 700px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .topo {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .topo nav {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .topo nav a {
+        width: auto;
+        text-align: center;
+    }
+
+    .cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    form {
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+}
