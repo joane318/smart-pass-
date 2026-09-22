@@ -12,7 +12,12 @@ def registrar_saida(request):
 
         print("QR CODE RECEBIDO:", qr_code)
 
-        aluno = get_object_or_404(Aluno, qr_code=qr_code)
+        try:
+            aluno = Aluno.objects.get(qr_code=qr_code)
+        except Aluno.DoesNotExist:
+            return render(request, "saidas/registrar_saida.html", {
+                "erro": f"QR Code não cadastrado: {qr_code}"
+            })
 
         print("ALUNO ENCONTRADO:", aluno)
         print("NOME:", aluno.nome)
@@ -69,8 +74,3 @@ def inicio(request):
         "saidas_hoje": saidas_hoje,
         "ultimas_saidas": ultimas_saidas,
     })
-
-
-
-
-
