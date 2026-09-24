@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Pass - Alunos</title>
+    <link rel="stylesheet" href="{% static 'saidas/style.css' %}">
+</head>
+
+<body>
+
+<header class="topo">
+    <div class="logo">SMART PASS</div>
+
+    <nav>
+        <a href="{% url 'inicio' %}">Painel</a>
+        <a href="{% url 'registrar_saida' %}">Registrar saída</a>
+        <a href="{% url 'historico' %}">Histórico</a>
+        <a href="{% url 'alunos' %}">Alunos</a>
+    </nav>
+</header>
+
+<div class="titulo-painel">
+    <h1>SMART PASS</h1>
+    <p>Alunos cadastrados</p>
+</div>
+
+<hr>
+
+{% regroup alunos by turma as turmas %}
+
+{% for turma in turmas %}
+
+<h2>Turma {{ turma.grouper }}</h2>
+
+<table>
+
+    <tr>
+        <th>Nome</th>
+        <th>Matrícula</th>
+        <th>QR Code</th>
+    </tr>
+
+    {% for aluno in turma.list %}
+
+    <tr>
+        <td>{{ aluno.nome }}</td>
+        <td>{{ aluno.matricula }}</td>
+        <td>{{ aluno.qr_code }}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+<br>
+
+{% empty %}
+
+<p>Nenhum aluno cadastrado.</p>
+
+{% endfor %}
+
+<hr>
+
+<a href="{% url 'inicio' %}">Voltar ao painel</a>
+
+</body>
+</html>

@@ -1,20 +1,16 @@
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <title>Smart Pass - Registrar Saída</title>
-
-
-<link rel="stylesheet" href="{% static 'saidas/style.css' %}">
-
-
+    <link rel="stylesheet" href="{% static 'saidas/style.css' %}">
 </head>
 
 <body>
+
 <header class="topo">
     <div class="logo">SMART PASS</div>
 
@@ -29,33 +25,37 @@
 
 <h2>Registrar saída do aluno</h2>
 
+{% if erro %}
+<p style="color: red; font-weight: bold;">
+    {{ erro }}
+</p>
+{% endif %}
+
 <hr>
 
 <form method="POST">
 
+    {% csrf_token %}
 
-{% csrf_token %}
+    <label>QR Code:</label>
+    <br>
+    <input type="text" name="qr_code" required>
 
-<label>QR Code:</label>
-<br>
-<input type="text" name="qr_code" required>
+    <br><br>
 
-<br><br>
+    <label>Motivo:</label>
+    <br>
+    <textarea name="motivo" required></textarea>
 
-<label>Motivo:</label>
-<br>
-<textarea name="motivo" required></textarea>
+    <br><br>
 
-<br><br>
+    <label>Responsável:</label>
+    <br>
+    <input type="text" name="responsavel" required>
 
-<label>Responsável:</label>
-<br>
-<input type="text" name="responsavel" required>
+    <br><br>
 
-<br><br>
-
-<button type="submit">Registrar saída</button>
-
+    <button type="submit">Registrar saída</button>
 
 </form>
 
@@ -66,5 +66,5 @@
 <a href="{% url 'historico' %}">Ver histórico</a>
 
 </body>
-
 </html>
+

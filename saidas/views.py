@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.utils import timezone
 
 from .models import Aluno, Saida
@@ -23,6 +23,13 @@ def registrar_saida(request):
         print("NOME:", aluno.nome)
         print("TURMA:", aluno.turma)
         print("MATRÍCULA:", aluno.matricula)
+
+        hoje = timezone.localdate()
+
+        if Saida.objects.filter(aluno=aluno, data=hoje).exists():
+            return render(request, "saidas/registrar_saida.html", {
+                "erro": f"O aluno {aluno.nome} já teve uma saída registrada hoje."
+            })
 
         Saida.objects.create(
             aluno=aluno,
@@ -74,3 +81,16 @@ def inicio(request):
         "saidas_hoje": saidas_hoje,
         "ultimas_saidas": ultimas_saidas,
     })
+def alunos(request):
+    alunos = Aluno.objects.all().order_by("turma", "nome")
+
+    return render(request, "saidas/alunos.html", {
+        "alunos": alunos,
+    })
+
+
+
+
+
+
+
