@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
-
+from django.db.models import Count
 from .models import Aluno, Saida
 
 
@@ -104,7 +104,24 @@ def cadastrar_aluno(request):
         return redirect("alunos")
 
     return render(request, "saidas/cadastrar_aluno.html")
+def diagnostico(request):
+    hoje = timezone.localdate()
 
+    dados = (
+        Saida.objects
+        .filter(
+            data__year=hoje.year,
+            data__month=hoje.month
+        )
+        .values("aluno__nome")
+        .annotate(total_saidas=Count("id"))
+        .order_by("-total_saidas", "aluno__nome")
+    )
+
+    return render(request, "saidas/diagnostico.html", {
+        "dados": dados,
+        "mes": hoje.strftime("%m/%Y"),
+    })
 
 
 

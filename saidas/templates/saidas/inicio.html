@@ -1,7 +1,6 @@
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="pt-br">
 
 <head>
@@ -12,20 +11,26 @@
 
 <body>
 
-
 <header class="topo">
+
     <div class="logo">SMART PASS</div>
 
-   <nav>
-    <a href="{% url 'inicio' %}">Painel</a>
-    <a href="{% url 'registrar_saida' %}">Registrar saída</a>
-    <a href="{% url 'historico' %}">Histórico</a>
-    <a href="{% url 'alunos' %}">Alunos</a>
-</nav>
+    <nav>
+        <a href="{% url 'inicio' %}">Painel</a>
+        <a href="{% url 'registrar_saida' %}">Registrar saída</a>
+        <a href="{% url 'historico' %}">Histórico</a>
+        <a href="{% url 'alunos' %}">Alunos</a>
+        <a href="{% url 'diagnostico' %}">Diagnóstico</a>
+    </nav>
+
 </header>
+
 <div class="titulo-painel">
+
     <h1>SMART PASS</h1>
+
     <p>Sistema de controle de saídas escolares</p>
+
 </div>
 
 <hr>
@@ -34,25 +39,23 @@
 
 <div class="cards">
 
+    <div class="card card-alunos">
+        <h2>ALUNOS</h2>
+        <h3>Total de alunos</h3>
+        <p>{{ total_alunos }}</p>
+    </div>
 
-<div class="card card-alunos">
-    <h2>ALUNOS</h2>
-    <h3>Total de alunos</h3>
-    <p>{{ total_alunos }}</p>
-</div>
+    <div class="card card-saidas">
+        <h2>SAIDAS</h2>
+        <h3>Total de saídas</h3>
+        <p>{{ total_saidas }}</p>
+    </div>
 
-<div class="card card-saidas">
-    <h2>SAIDAS</h2>
-    <h3>Total de saídas</h3>
-    <p>{{ total_saidas }}</p>
-</div>
-
-<div class="card card-hoje">
-    <h2>HOJE</h2>
-    <h3>Saídas de hoje</h3>
-    <p>{{ saidas_hoje }}</p>
-</div>
-
+    <div class="card card-hoje">
+        <h2>HOJE</h2>
+        <h3>Saídas de hoje</h3>
+        <p>{{ saidas_hoje }}</p>
+    </div>
 
 </div>
 
@@ -73,6 +76,7 @@
 <h3>Últimas saídas</h3>
 
 <table>
+
     <tr>
         <th>Aluno</th>
         <th>Turma</th>
@@ -82,19 +86,37 @@
         <th>Horário</th>
     </tr>
 
+    {% for saida in ultimas_saidas %}
 
-{% for saida in ultimas_saidas %}
-<tr>
-    <td>{{ saida.aluno.nome }}</td>
-    <td>{{ saida.aluno.turma }}</td>
-    <td>{{ saida.motivo }}</td>
-    <td>{{ saida.responsavel }}</td>
-    <td>{{ saida.data }}</td>
-    <td>{{ saida.horario }}</td>
-</tr>
-{% endfor %}
+    <tr>
+        <td>{{ saida.aluno.nome }}</td>
+        <td>{{ saida.aluno.turma }}</td>
+        <td>{{ saida.motivo }}</td>
+        <td>{{ saida.responsavel }}</td>
+        <td>{{ saida.data }}</td>
+        <td>{{ saida.horario }}</td>
+    </tr>
+
+    {% endfor %}
 
 </table>
 
+<hr>
+
+<h3>Diagnóstico do mês</h3>
+
+<div style="width: 90%; max-width: 1000px; margin: 30px auto;">
+
+    <p>
+        Veja a quantidade de saídas de cada aluno durante o mês.
+    </p>
+
+    <a href="{% url 'diagnostico' %}">
+        Ver diagnóstico
+    </a>
+
+</div>
+
 </body>
+
 </html>

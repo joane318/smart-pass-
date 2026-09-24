@@ -1,0 +1,124 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Pass - Diagnóstico</title>
+
+    <link rel="stylesheet" href="{% static 'saidas/style.css' %}">
+
+    <style>
+        .grafico {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .aluno {
+            margin-bottom: 20px;
+        }
+
+        .nome {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .barra-fundo {
+            width: 100%;
+            height: 35px;
+            background: #eeeeee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .barra {
+            height: 35px;
+            background: #176b3a;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            box-sizing: border-box;
+            min-width: 35px;
+        }
+
+        .sem-dados {
+            text-align: center;
+            padding: 30px;
+            font-size: 18px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header class="topo">
+
+    <div class="logo">SMART PASS</div>
+
+    <nav>
+        <a href="{% url 'inicio' %}">Painel</a>
+        <a href="{% url 'registrar_saida' %}">Registrar saída</a>
+        <a href="{% url 'historico' %}">Histórico</a>
+        <a href="{% url 'alunos' %}">Alunos</a>
+        <a href="{% url 'diagnostico' %}">Diagnóstico</a>
+    </nav>
+
+</header>
+
+<div class="titulo-painel">
+
+    <h1>DIAGNÓSTICO</h1>
+
+    <p>Quantidade de saídas por aluno - {{ mes }}</p>
+
+</div>
+
+<hr>
+
+<div class="grafico">
+
+    {% if dados %}
+
+        {% for item in dados %}
+
+            <div class="aluno">
+
+                <div class="nome">
+                    {{ item.aluno__nome }}
+                </div>
+
+                <div class="barra-fundo">
+
+                    <div
+                        class="barra"
+                        style="width: {% widthratio item.total_saidas 10 100 %}%;">
+                        {{ item.total_saidas }} saída(s)
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="sem-dados">
+            Nenhuma saída registrada neste mês.
+        </div>
+
+    {% endif %}
+
+</div>
+
+<hr>
+
+<a href="{% url 'inicio' %}">Voltar ao painel</a>
+
+</body>
+
+</html>
