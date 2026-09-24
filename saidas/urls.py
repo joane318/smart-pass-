@@ -12,4 +12,5 @@ urlpatterns = [
 
     path("alunos/", views.alunos, name="alunos"),
 
+    path("alunos/cadastrar/", views.cadastrar_aluno, name="cadastrar_aluno"),
 ]

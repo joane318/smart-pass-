@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Pass - Cadastrar Aluno</title>
+    <link rel="stylesheet" href="{% static 'saidas/style.css' %}">
+</head>
+
+<body>
+
+<header class="topo">
+    <div class="logo">SMART PASS</div>
+
+    <nav>
+        <a href="{% url 'inicio' %}">Painel</a>
+        <a href="{% url 'registrar_saida' %}">Registrar saída</a>
+        <a href="{% url 'historico' %}">Histórico</a>
+        <a href="{% url 'alunos' %}">Alunos</a>
+    </nav>
+</header>
+
+<div class="titulo-painel">
+    <h1>SMART PASS</h1>
+    <p>Cadastrar aluno</p>
+</div>
+
+<hr>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <label>Nome:</label>
+    <br>
+    <input type="text" name="nome" required>
+
+    <br><br>
+
+    <label>Matrícula:</label>
+    <br>
+    <input type="text" name="matricula" required>
+
+    <br><br>
+
+    <label>Turma:</label>
+    <br>
+    <input type="text" name="turma" placeholder="Ex.: 2A DS" required>
+
+    <br><br>
+
+    <label>QR Code:</label>
+    <br>
+    <input type="text" name="qr_code" required>
+
+    <br><br>
+
+    <button type="submit">Cadastrar aluno</button>
+
+</form>
+
+<hr>
+
+<a href="{% url 'alunos' %}">Voltar para alunos</a>
+
+</body>
+</html>

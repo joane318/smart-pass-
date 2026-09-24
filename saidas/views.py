@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 
 from .models import Aluno, Saida
@@ -87,6 +87,30 @@ def alunos(request):
     return render(request, "saidas/alunos.html", {
         "alunos": alunos,
     })
+def cadastrar_aluno(request):
+    if request.method == "POST":
+        nome = request.POST.get("nome")
+        matricula = request.POST.get("matricula")
+        turma = request.POST.get("turma")
+        qr_code = request.POST.get("qr_code")
+
+        Aluno.objects.create(
+            nome=nome,
+            matricula=matricula,
+            turma=turma,
+            qr_code=qr_code
+        )
+
+        return redirect("alunos")
+
+    return render(request, "saidas/cadastrar_aluno.html")
+
+
+
+
+
+
+
 
 
 
