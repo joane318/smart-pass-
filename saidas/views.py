@@ -104,24 +104,140 @@ def cadastrar_aluno(request):
         return redirect("alunos")
 
     return render(request, "saidas/cadastrar_aluno.html")
+
 def diagnostico(request):
+    import calendar
+    from datetime import date
+    from django.db.models import Count
+
     hoje = timezone.localdate()
 
-    dados = (
+    meses = [
+        "Janeiro", "Fevereiro", "Março", "Abril",
+        "Maio", "Junho", "Julho", "Agosto",
+        "Setembro", "Outubro", "Novembro", "Dezembro"
+    ]
+
+    nome_mes = meses[hoje.month - 1]
+
+    ultimo_dia = calendar.monthrange(hoje.year, hoje.month)[1]
+
+    saidas_por_dia = (
         Saida.objects
         .filter(
             data__year=hoje.year,
             data__month=hoje.month
         )
-        .values("aluno__nome")
-        .annotate(total_saidas=Count("id"))
-        .order_by("-total_saidas", "aluno__nome")
+        .values("data")
+        .annotate(total=Count("id"))
+        .order_by("data")
     )
+
+    dados = []
+
+    for dia in range(1, ultimo_dia + 1):
+
+        data_dia = date(hoje.year, hoje.month, dia)
+
+        quantidade = 0
+
+        for item in saidas_por_dia:
+            if item["data"] == data_dia:
+                quantidade = item["total"]
+                break
+
+        dados.append({
+            "dia": dia,
+            "quantidade": quantidade
+        })
+
+    maior_quantidade = max(
+        [item["quantidade"] for item in dados],
+        default=1
+    )
+
+    total_saidas = Saida.objects.filter(
+        data__year=hoje.year,
+        data__month=hoje.month
+    ).count()
+
+    motivos = (
+        Saida.objects
+        .filter(
+            data__year=hoje.year,
+            data__month=hoje.month
+        )
+        .values("motivo")
+        .annotate(total=Count("id"))
+        .order_by("-total")
+    )
+    
+    dados_motivos = []
+
+    for item in motivos:
+
+        if total_saidas > 0:
+            porcentagem = round(
+                (item["total"] / total_saidas) * 100,
+                1
+            )
+        else:
+            porcentagem = 0
+
+        saidas_do_motivo = Saida.objects.filter(
+            data__year=hoje.year,
+            data__month=hoje.month,
+            motivo=item["motivo"]
+        ).select_related("aluno")
+
+        dados_motivos.append({
+            "motivo": item["motivo"],
+            "total": item["total"],
+            "porcentagem": porcentagem,
+            "alunos": saidas_do_motivo
+        })
 
     return render(request, "saidas/diagnostico.html", {
         "dados": dados,
-        "mes": hoje.strftime("%m/%Y"),
+        "mes": f"{nome_mes} de {hoje.year}",
+        "maior_quantidade": maior_quantidade,
+        "motivos": dados_motivos,
+        "total_saidas": total_saidas,
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

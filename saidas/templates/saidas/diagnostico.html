@@ -1,55 +1,240 @@
 {% load static %}
 
 <!DOCTYPE html>
+
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Smart Pass - Diagnóstico</title>
 
-    <link rel="stylesheet" href="{% static 'saidas/style.css' %}">
 
-    <style>
-        .grafico {
-            width: 90%;
-            max-width: 1000px;
-            margin: 30px auto;
+<meta charset="UTF-8">
+
+<title>Smart Pass - Diagnóstico</title>
+
+<link rel="stylesheet" href="{% static 'saidas/style.css' %}">
+
+<style>
+
+    body {
+        background: #f4f7f5;
+    }
+
+    .diagnostico-container {
+        width: 94%;
+        max-width: 1200px;
+        margin: 30px auto 50px;
+    }
+
+    .cabecalho-diagnostico {
+        background: linear-gradient(135deg, #0d542d, #21894d);
+        color: white;
+        padding: 30px;
+        border-radius: 16px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.10);
+    }
+
+    .cabecalho-diagnostico h1 {
+        margin: 0;
+        font-size: 30px;
+    }
+
+    .cabecalho-diagnostico p {
+        margin: 8px 0;
+        opacity: 0.9;
+    }
+
+    .resumo {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .card-resumo {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        border-left: 5px solid #176b3a;
+    }
+
+    .card-resumo h3 {
+        margin: 0 0 10px;
+        color: #666;
+        font-size: 15px;
+    }
+
+    .card-resumo strong {
+        font-size: 30px;
+        color: #176b3a;
+    }
+
+    .grafico-card {
+        background: white;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+    }
+
+    .grafico-card h2 {
+        margin-top: 0;
+        color: #174d30;
+    }
+
+    .grafico {
+        height: 380px;
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        padding: 20px 15px 40px;
+        border-bottom: 2px solid #ddd;
+        overflow-x: auto;
+    }
+
+    .dia {
+        min-width: 30px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .barra-area {
+        height: 290px;
+        width: 28px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .barra {
+        width: 24px;
+        background: linear-gradient(to top, #176b3a, #43a866);
+        border-radius: 6px 6px 0 0;
+        min-height: 3px;
+    }
+
+    .barra:hover {
+        opacity: 0.75;
+    }
+
+    .quantidade {
+        font-size: 12px;
+        font-weight: bold;
+        color: #176b3a;
+        margin-bottom: 5px;
+    }
+
+    .numero-dia {
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .legenda {
+        text-align: center;
+        color: #777;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .motivos-card {
+        background: white;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .motivos-card h2 {
+        margin-top: 0;
+        color: #174d30;
+    }
+
+    .motivo {
+        padding: 18px;
+        margin-top: 15px;
+        background: #f7faf8;
+        border-radius: 12px;
+        border: 1px solid #e2eae5;
+    }
+
+    .motivo-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+
+    .motivo-nome {
+        font-weight: bold;
+        color: #333;
+        text-transform: capitalize;
+    }
+
+    .motivo-valor {
+        font-weight: bold;
+        color: #176b3a;
+    }
+
+    .barra-porcentagem {
+        width: 100%;
+        height: 12px;
+        background: #dfe7e2;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .barra-preenchida {
+        height: 100%;
+        background: linear-gradient(to right, #176b3a, #43a866);
+        border-radius: 20px;
+    }
+
+    .total {
+        margin-top: 20px;
+        padding: 18px;
+        background: #e8f4ec;
+        border-radius: 12px;
+        text-align: center;
+        color: #176b3a;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .voltar {
+        display: inline-block;
+        margin: 25px 0;
+        padding: 12px 20px;
+        background: #176b3a;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .voltar:hover {
+        background: #0d542d;
+    }
+
+    @media (max-width: 700px) {
+
+        .resumo {
+            grid-template-columns: 1fr;
         }
 
-        .aluno {
-            margin-bottom: 20px;
+        .cabecalho-diagnostico h1 {
+            font-size: 24px;
         }
 
-        .nome {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+    }
 
-        .barra-fundo {
-            width: 100%;
-            height: 35px;
-            background: #eeeeee;
-            border-radius: 8px;
-            overflow: hidden;
-        }
+</style>
 
-        .barra {
-            height: 35px;
-            background: #176b3a;
-            color: white;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            box-sizing: border-box;
-            min-width: 35px;
-        }
-
-        .sem-dados {
-            text-align: center;
-            padding: 30px;
-            font-size: 18px;
-        }
-    </style>
 
 </head>
 
@@ -57,68 +242,370 @@
 
 <header class="topo">
 
-    <div class="logo">SMART PASS</div>
 
-    <nav>
-        <a href="{% url 'inicio' %}">Painel</a>
-        <a href="{% url 'registrar_saida' %}">Registrar saída</a>
-        <a href="{% url 'historico' %}">Histórico</a>
-        <a href="{% url 'alunos' %}">Alunos</a>
-        <a href="{% url 'diagnostico' %}">Diagnóstico</a>
-    </nav>
+<div class="logo">SMART PASS</div>
+
+<nav>
+
+    <a href="{% url 'inicio' %}">Painel</a>
+
+    <a href="{% url 'registrar_saida' %}">
+        Registrar saída
+    </a>
+
+    <a href="{% url 'historico' %}">
+        Histórico
+    </a>
+
+    <a href="{% url 'alunos' %}">
+        Alunos
+    </a>
+
+    <a href="{% url 'diagnostico' %}">
+        Diagnóstico
+    </a>
+
+</nav>
+
 
 </header>
 
-<div class="titulo-painel">
+<div class="diagnostico-container">
 
-    <h1>DIAGNÓSTICO</h1>
 
-    <p>Quantidade de saídas por aluno - {{ mes }}</p>
+<div class="cabecalho-diagnostico">
+
+    <h1>Diagnóstico</h1>
+
+    <p>Análise das saídas escolares</p>
+
+    <strong>{{ mes }}</strong>
 
 </div>
 
-<hr>
+<div class="resumo">
 
-<div class="grafico">
+    <div class="card-resumo">
 
-    {% if dados %}
+        <h3>Total de saídas</h3>
 
-        {% for item in dados %}
+        <strong>{{ total_saidas }}</strong>
 
-            <div class="aluno">
+    </div>
 
-                <div class="nome">
-                    {{ item.aluno__nome }}
-                </div>
+    <div class="card-resumo">
 
-                <div class="barra-fundo">
+        <h3>Dias analisados</h3>
 
-                    <div
-                        class="barra"
-                        style="width: {% widthratio item.total_saidas 10 100 %}%;">
-                        {{ item.total_saidas }} saída(s)
+        <strong>{{ dados|length }}</strong>
+
+    </div>
+
+    <div class="card-resumo">
+
+        <h3>Maior número em um dia</h3>
+
+        <strong>{{ maior_quantidade }}</strong>
+
+    </div>
+
+</div>
+
+<div class="grafico-card">
+
+ <h2>Saídas por dia</h2>
+
+<div class="grafico-card">
+
+    <div class="grafico-cabecalho">
+
+        <div>
+            <h3>Saídas registradas</h3>
+            <p>{{ mes }}</p>
+        </div>
+
+        <div class="grafico-total">
+            <strong>{{ total_saidas }}</strong>
+            <span>saídas no mês</span>
+        </div>
+
+    </div>
+
+    <div class="grafico-container">
+
+        <div class="grafico-linha">
+
+            {% for item in dados %}
+
+            <div class="grafico-dia">
+
+                {% if item.quantidade > 0 %}
+
+                    <div class="grafico-valor">
+                        {{ item.quantidade }}
                     </div>
 
-                </div>
+                    <div
+                        class="grafico-ponto ativo"
+                        style="bottom: {% widthratio item.quantidade maior_quantidade 100 %}%;">
+                    </div>
+
+                {% else %}
+
+                    <div class="grafico-ponto"></div>
+
+                {% endif %}
+
+                <span>{{ item.dia }}</span>
 
             </div>
 
-        {% endfor %}
+            {% endfor %}
 
-    {% else %}
-
-        <div class="sem-dados">
-            Nenhuma saída registrada neste mês.
         </div>
 
-    {% endif %}
+    </div>
+
+    <div class="grafico-legenda">
+        <span>●</span>
+        Dias com saída registrada
+    </div>
 
 </div>
 
-<hr>
 
-<a href="{% url 'inicio' %}">Voltar ao painel</a>
+    <h2>Motivos das saídas</h2>
+
+    {% for item in motivos %}
+
+    <div class="motivo">
+<div class="motivo-info">
+
+    <span class="motivo-nome">
+        {{ item.motivo }}
+    </span>
+
+    <span class="motivo-valor">
+        {{ item.total }} saída(s) — {{ item.porcentagem }}%
+    </span>
+
+</div>
+
+<div style="margin-top: 10px; color: #555;">
+
+    {% for saida in item.alunos %}
+
+        <strong>Aluno:</strong> {{ saida.aluno.nome }}
+
+        {% if not forloop.last %}
+            <br>
+        {% endif %}
+
+    {% endfor %}
+
+</div>
+
+        <div class="barra-porcentagem">
+
+            <div
+                class="barra-preenchida"
+                style="width: {{ item.porcentagem }}%;">
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <p>Nenhuma saída registrada neste mês.</p>
+
+    {% endfor %}
+
+    <div class="total">
+
+        Total de saídas no mês:
+        {{ total_saidas }}
+
+    </div>
+
+</div>
+
+<a class="voltar" href="{% url 'inicio' %}">
+    ← Voltar ao painel
+</a>
+
+
+</div>
 
 </body>
 
 </html>
+
+.grafico-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 25px;
+    margin-top: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.grafico-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.grafico-cabecalho h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #14532d;
+}
+
+.grafico-cabecalho p {
+    margin: 5px 0 0;
+    color: #6b7280;
+}
+
+.grafico-total {
+    text-align: right;
+}
+
+.grafico-total strong {
+    display: block;
+    font-size: 28px;
+    color: #166534;
+}
+
+.grafico-total span {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.grafico {
+    display: flex;
+    height: 280px;
+    overflow-x: auto;
+}
+
+.eixo-y {
+    width: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 30px;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+.grafico-area {
+    position: relative;
+    flex: 1;
+    min-width: 650px;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.linha-guia {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 1px dashed #e5e7eb;
+}
+
+.linha-2 {
+    top: 0;
+}
+
+.linha-1 {
+    top: 50%;
+}
+
+.linha-0 {
+    bottom: 0;
+}
+
+.pontos {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.ponto-container {
+    position: relative;
+    flex: 1;
+    min-width: 20px;
+    height: 100%;
+}
+
+.ponto {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 11px;
+    height: 11px;
+    background: #16a34a;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.35);
+}
+
+.valor-ponto {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(100% - 5px);
+    background: #14532d;
+    color: white;
+    padding: 4px 7px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.dia {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.grafico-legenda {
+    margin-top: 35px;
+    color: #6b7280;
+    font-size: 13px;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
