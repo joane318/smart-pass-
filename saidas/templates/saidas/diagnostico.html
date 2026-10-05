@@ -1,611 +1,876 @@
 {% load static %}
-
 <!DOCTYPE html>
-
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
 
+    <meta charset="UTF-8">
 
-<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Smart Pass - Diagnóstico</title>
+    <title>Smart Pass - Diagnóstico</title>
 
-<link rel="stylesheet" href="{% static 'saidas/style.css' %}">
+    <link rel="stylesheet" href="{% static 'saidas/style.css' %}">
 
-<style>
+    <style>
 
-    body {
-        background: #f4f7f5;
-    }
+        .diagnostico-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
 
-    .diagnostico-container {
-        width: 94%;
-        max-width: 1200px;
-        margin: 30px auto 50px;
-    }
+        .diagnostico-header {
+            margin-bottom: 30px;
+        }
 
-    .cabecalho-diagnostico {
-        background: linear-gradient(135deg, #0d542d, #21894d);
-        color: white;
-        padding: 30px;
-        border-radius: 16px;
-        margin-bottom: 25px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.10);
-    }
+        .diagnostico-header h1 {
+            color: #14532d;
+            margin-bottom: 5px;
+        }
 
-    .cabecalho-diagnostico h1 {
-        margin: 0;
-        font-size: 30px;
-    }
+        .diagnostico-header p {
+            color: #6b7280;
+            margin: 0;
+      }
 
-    .cabecalho-diagnostico p {
-        margin: 8px 0;
-        opacity: 0.9;
-    }
-
-    .resumo {
+    /* ========================= */
+    /* CARDS */
+    /* ========================= */
+    
+    .cards-diagnostico {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
-        margin-bottom: 25px;
-    }
+        margin-bottom: 30px;
+       }
 
-    .card-resumo {
-        background: white;
-        padding: 25px;
-        border-radius: 15px;
-        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-        border-left: 5px solid #176b3a;
-    }
-
-    .card-resumo h3 {
-        margin: 0 0 10px;
-        color: #666;
-        font-size: 15px;
-    }
-
-    .card-resumo strong {
-        font-size: 30px;
-        color: #176b3a;
-    }
-
-    .grafico-card {
-        background: white;
-        padding: 25px;
-        border-radius: 16px;
-        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-        margin-bottom: 25px;
-    }
-
-    .grafico-card h2 {
-        margin-top: 0;
-        color: #174d30;
-    }
-
-    .grafico {
-        height: 380px;
-        display: flex;
-        align-items: flex-end;
-        gap: 6px;
-        padding: 20px 15px 40px;
-        border-bottom: 2px solid #ddd;
-        overflow-x: auto;
-    }
-
-    .dia {
-        min-width: 30px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-    }
-
-    .barra-area {
-        height: 290px;
-        width: 28px;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-    }
-
-    .barra {
-        width: 24px;
-        background: linear-gradient(to top, #176b3a, #43a866);
-        border-radius: 6px 6px 0 0;
-        min-height: 3px;
-    }
-
-    .barra:hover {
-        opacity: 0.75;
-    }
-
-    .quantidade {
-        font-size: 12px;
-        font-weight: bold;
-        color: #176b3a;
-        margin-bottom: 5px;
-    }
-
-    .numero-dia {
-        margin-top: 8px;
-        font-size: 12px;
-        font-weight: bold;
-        color: #555;
-    }
-
-    .legenda {
-        text-align: center;
-        color: #777;
-        margin-top: 15px;
-        font-size: 14px;
-    }
-
-    .motivos-card {
-        background: white;
-        padding: 25px;
-        border-radius: 16px;
-        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    }
-
-    .motivos-card h2 {
-        margin-top: 0;
-        color: #174d30;
-    }
-
-    .motivo {
-        padding: 18px;
-        margin-top: 15px;
-        background: #f7faf8;
-        border-radius: 12px;
-        border: 1px solid #e2eae5;
-    }
-
-    .motivo-info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 10px;
-    }
-
-    .motivo-nome {
-        font-weight: bold;
-        color: #333;
-        text-transform: capitalize;
-    }
-
-    .motivo-valor {
-        font-weight: bold;
-        color: #176b3a;
-    }
-
-    .barra-porcentagem {
-        width: 100%;
-        height: 12px;
-        background: #dfe7e2;
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    .barra-preenchida {
-        height: 100%;
-        background: linear-gradient(to right, #176b3a, #43a866);
-        border-radius: 20px;
-    }
-
-    .total {
-        margin-top: 20px;
-        padding: 18px;
-        background: #e8f4ec;
-        border-radius: 12px;
-        text-align: center;
-        color: #176b3a;
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-    .voltar {
-        display: inline-block;
-        margin: 25px 0;
-        padding: 12px 20px;
-        background: #176b3a;
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: bold;
-    }
-
-    .voltar:hover {
-        background: #0d542d;
-    }
-
-    @media (max-width: 700px) {
-
-        .resumo {
-            grid-template-columns: 1fr;
+        .card-diagnostico {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
         }
 
-        .cabecalho-diagnostico h1 {
-            font-size: 24px;
+        .card-diagnostico span {
+            display: block;
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 8px;
         }
 
-    }
+        .card-diagnostico strong {
+            color: #14532d;
+            font-size: 30px;
+        }
 
-</style>
 
+        /* ========================= */
+        /* GRÁFICO PROFISSIONAL */
+        /* ========================= */
+
+        .grafico-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 28px;
+            margin: 20px 0 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .grafico-topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .grafico-topo h2 {
+            color: #14532d;
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .grafico-topo p {
+            color: #6b7280;
+            margin: 6px 0 0;
+            font-size: 14px;
+        }
+
+        .grafico-resumo {
+            text-align: right;
+        }
+
+        .grafico-resumo strong {
+            display: block;
+            color: #166534;
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .grafico-resumo span {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .grafico-area {
+            position: relative;
+            height: 330px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .grafico-container {
+            position: relative;
+            min-width: 850px;
+            height: 280px;
+            margin-left: 45px;
+        }
+
+        .grafico-linhas {
+            position: absolute;
+            inset: 0;
+        }
+
+        .grafico-linha {
+            position: absolute;
+            left: 0;
+            right: 0;
+            border-top: 1px dashed #e5e7eb;
+        }
+
+        .grafico-linha.topo {
+            top: 0;
+        }
+
+        .grafico-linha.meio {
+            top: 50%;
+        }
+
+        .grafico-linha.baixo {
+            bottom: 0;
+        }
+
+        .grafico-escala {
+            position: absolute;
+            left: -38px;
+            top: -6px;
+            bottom: -5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        .grafico-svg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .area-grafico {
+            fill: rgba(22, 163, 74, 0.10);
+        }
+
+        .linha-grafico {
+            fill: none;
+            stroke: #16a34a;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .ponto-grafico {
+            fill: #ffffff;
+            stroke: #16a34a;
+            stroke-width: 3;
+            transition: 0.2s;
+        }
+
+        .ponto-grafico:hover {
+            fill: #16a34a;
+            r: 7;
+        }
+
+        .valor-grafico {
+            fill: #14532d;
+            font-size: 11px;
+            font-weight: bold;
+            text-anchor: middle;
+        }
+
+        .dias-grafico {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -28px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .dia-grafico {
+            color: #6b7280;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .grafico-legenda {
+            margin-top: 35px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .legenda-ponto {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #16a34a;
+            display: inline-block;
+        }
+
+
+        /* ========================= */
+        /* MOTIVOS */
+        /* ========================= */
+
+        .motivos-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .motivos-card h2 {
+            color: #14532d;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .motivo {
+            padding: 18px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .motivo:last-child {
+            border-bottom: none;
+        }
+
+        .motivo-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .motivo-nome {
+            font-weight: bold;
+            color: #374151;
+        }
+
+        .motivo-valor {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .aluno-motivo {
+            color: #4b5563;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .barra-porcentagem {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .barra-preenchida {
+            height: 100%;
+            background: #16a34a;
+            border-radius: 10px;
+        }
+
+
+        /* ========================= */
+        /* TOTAL */
+        /* ========================= */
+
+        .total-mes {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .total-mes strong {
+            color: #14532d;
+            font-size: 18px;
+        }
+
+
+        /* ========================= */
+        /* BOTÃO */
+        /* ========================= */
+
+        .voltar {
+            display: inline-block;
+            text-decoration: none;
+            color: #ffffff;
+            background: #14532d;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .voltar:hover {
+            background: #166534;
+        }
+
+
+        /* ========================= */
+        /* RESPONSIVO */
+        /* ========================= */
+
+        @media (max-width: 700px) {
+
+            .cards-diagnostico {
+                grid-template-columns: 1fr;
+            }
+
+            .motivo-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .grafico-topo {
+                align-items: flex-start;
+            }
+
+            .grafico-resumo strong {
+                font-size: 25px;
+            }
+
+            .grafico-container {
+                min-width: 750px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
-<header class="topo">
+    <header>
 
+        <div class="header-content">
 
-<div class="logo">SMART PASS</div>
+            <div>
+                <strong>SMART PASS</strong>
+            </div>
 
-<nav>
+            <nav>
 
-    <a href="{% url 'inicio' %}">Painel</a>
+                <a href="{% url 'inicio' %}">
+                    Painel
+                </a>
 
-    <a href="{% url 'registrar_saida' %}">
-        Registrar saída
-    </a>
+                <a href="{% url 'registrar_saida' %}">
+                    Registrar saída
+                </a>
 
-    <a href="{% url 'historico' %}">
-        Histórico
-    </a>
+                <a href="{% url 'historico' %}">
+                    Histórico
+                </a>
 
-    <a href="{% url 'alunos' %}">
-        Alunos
-    </a>
+                <a href="{% url 'alunos' %}">
+                    Alunos
+                </a>
 
-    <a href="{% url 'diagnostico' %}">
-        Diagnóstico
-    </a>
+                <a href="{% url 'diagnostico' %}">
+                    Diagnóstico
+                </a>
 
-</nav>
+            </nav>
 
-
-</header>
-
-<div class="diagnostico-container">
-
-
-<div class="cabecalho-diagnostico">
-
-    <h1>Diagnóstico</h1>
-
-    <p>Análise das saídas escolares</p>
-
-    <strong>{{ mes }}</strong>
-
-</div>
-
-<div class="resumo">
-
-    <div class="card-resumo">
-
-        <h3>Total de saídas</h3>
-
-        <strong>{{ total_saidas }}</strong>
-
-    </div>
-
-    <div class="card-resumo">
-
-        <h3>Dias analisados</h3>
-
-        <strong>{{ dados|length }}</strong>
-
-    </div>
-
-    <div class="card-resumo">
-
-        <h3>Maior número em um dia</h3>
-
-        <strong>{{ maior_quantidade }}</strong>
-
-    </div>
-
-</div>
-
-<div class="grafico-card">
-
- <h2>Saídas por dia</h2>
-
-<div class="grafico-card">
-
-    <div class="grafico-cabecalho">
-
-        <div>
-            <h3>Saídas registradas</h3>
-            <p>{{ mes }}</p>
         </div>
 
-        <div class="grafico-total">
-            <strong>{{ total_saidas }}</strong>
-            <span>saídas no mês</span>
+    </header>
+
+
+    <main class="diagnostico-container">
+
+        <div class="diagnostico-header">
+
+            <h1>Diagnóstico</h1>
+
+            <p>
+                Análise das saídas escolares
+            </p>
+
         </div>
 
-    </div>
 
-    <div class="grafico-container">
+        <!-- CARDS -->
 
-        <div class="grafico-linha">
+        <div class="cards-diagnostico">
 
-            {% for item in dados %}
+            <div class="card-diagnostico">
 
-            <div class="grafico-dia">
+                <span>
+                    Total de saídas
+                </span>
 
-                {% if item.quantidade > 0 %}
-
-                    <div class="grafico-valor">
-                        {{ item.quantidade }}
-                    </div>
-
-                    <div
-                        class="grafico-ponto ativo"
-                        style="bottom: {% widthratio item.quantidade maior_quantidade 100 %}%;">
-                    </div>
-
-                {% else %}
-
-                    <div class="grafico-ponto"></div>
-
-                {% endif %}
-
-                <span>{{ item.dia }}</span>
+                <strong>
+                    {{ total_saidas }}
+                </strong>
 
             </div>
+
+
+            <div class="card-diagnostico">
+
+                <span>
+                    Dias analisados
+                </span>
+
+                <strong>
+                    {{ dados|length }}
+                </strong>
+
+            </div>
+
+
+            <div class="card-diagnostico">
+
+                <span>
+                    Maior número em um dia
+                </span>
+
+                <strong>
+                    {{ maior_quantidade }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- GRÁFICO -->
+
+        <div class="grafico-card">
+
+            <div class="grafico-topo">
+
+                <div>
+
+                    <h2>
+                        Saídas por dia
+                    </h2>
+
+                    <p>
+                        {{ mes }}
+                    </p>
+
+                </div>
+
+                <div class="grafico-resumo">
+
+                    <strong>
+                        {{ total_saidas }}
+                    </strong>
+
+                    <span>
+                        saídas no mês
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="grafico-area">
+
+                <div class="grafico-container">
+
+                    <div class="grafico-linhas">
+
+                        <div class="grafico-linha topo"></div>
+
+                        <div class="grafico-linha meio"></div>
+
+                        <div class="grafico-linha baixo"></div>
+
+                    </div>
+
+
+                    <div class="grafico-escala">
+
+                        <span>
+                            {{ maior_quantidade }}
+                        </span>
+
+                        <span>
+                            0
+                        </span>
+
+                    </div>
+
+
+                    <svg
+                        class="grafico-svg"
+                        viewBox="0 0 1000 280"
+                        preserveAspectRatio="none"
+                        id="graficoSVG">
+
+                        <polygon
+                            class="area-grafico"
+                            id="areaGrafico">
+                        </polygon>
+
+                        <polyline
+                            class="linha-grafico"
+                            id="linhaGrafico">
+                        </polyline>
+
+                        <g id="pontosGrafico"></g>
+
+                    </svg>
+
+
+                    <div class="dias-grafico">
+
+                        {% for item in dados %}
+
+                        <div class="dia-grafico">
+
+                            {{ item.dia }}
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="grafico-legenda">
+
+                <span class="legenda-ponto"></span>
+
+                Quantidade de saídas registradas por dia
+
+            </div>
+
+        </div>
+
+
+        <!-- JAVASCRIPT DO GRÁFICO -->
+
+        <script>
+
+            const dadosGrafico = [
+
+                {% for item in dados %}
+
+                {
+                    dia: {{ item.dia }},
+                    quantidade: {{ item.quantidade }}
+                },
+
+                {% endfor %}
+
+            ];
+
+
+            const maiorQuantidade = {{ maior_quantidade }};
+
+            const largura = 1000;
+
+            const altura = 280;
+
+            const margemX = 15;
+
+            const quantidadeDias = dadosGrafico.length;
+
+            const pontos = [];
+
+
+            if (quantidadeDias > 1) {
+
+                dadosGrafico.forEach((item, index) => {
+
+                    const x =
+                        margemX +
+                        (index / (quantidadeDias - 1)) *
+                        (largura - margemX * 2);
+
+
+                    let y;
+
+
+                    if (maiorQuantidade > 0) {
+
+                        y =
+                            altura -
+                            (item.quantidade / maiorQuantidade) *
+                            (altura - 20);
+
+                    } else {
+
+                        y = altura;
+
+                    }
+
+
+                    pontos.push({
+
+                        x: x,
+
+                        y: y,
+
+                        quantidade: item.quantidade
+
+                    });
+
+                });
+
+            }
+
+
+            const linha = pontos
+                .map(ponto => `${ponto.x},${ponto.y}`)
+                .join(" ");
+
+
+            document
+                .getElementById("linhaGrafico")
+                .setAttribute("points", linha);
+
+
+            if (pontos.length > 0) {
+
+                const area = [
+
+                    `${pontos[0].x},${altura}`,
+
+                    ...pontos.map(
+                        ponto => `${ponto.x},${ponto.y}`
+                    ),
+
+                    `${pontos[pontos.length - 1].x},${altura}`
+
+                ].join(" ");
+
+
+                document
+                    .getElementById("areaGrafico")
+                    .setAttribute("points", area);
+
+            }
+
+
+            const grupo =
+                document.getElementById("pontosGrafico");
+
+
+            pontos.forEach(ponto => {
+
+                if (ponto.quantidade > 0) {
+
+                    const circulo =
+                        document.createElementNS(
+                            "http://www.w3.org/2000/svg",
+                            "circle"
+                        );
+
+
+                    circulo.setAttribute(
+                        "class",
+                        "ponto-grafico"
+                    );
+
+
+                    circulo.setAttribute(
+                        "cx",
+                        ponto.x
+                    );
+
+
+                    circulo.setAttribute(
+                        "cy",
+                        ponto.y
+                    );
+
+
+                    circulo.setAttribute(
+                        "r",
+                        "5"
+                    );
+
+
+                    grupo.appendChild(circulo);
+
+
+                    const texto =
+                        document.createElementNS(
+                            "http://www.w3.org/2000/svg",
+                            "text"
+                        );
+
+
+                    texto.setAttribute(
+                        "class",
+                        "valor-grafico"
+                    );
+
+
+                    texto.setAttribute(
+                        "x",
+                        ponto.x
+                    );
+
+
+                    texto.setAttribute(
+                        "y",
+                        ponto.y - 12
+                    );
+
+
+                    texto.textContent =
+                        ponto.quantidade;
+
+
+                    grupo.appendChild(texto);
+
+                }
+
+            });
+
+        </script>
+
+
+        <!-- MOTIVOS -->
+
+        <div class="motivos-card">
+
+            <h2>
+                Motivos das saídas
+            </h2>
+
+
+            {% for item in motivos %}
+
+            <div class="motivo">
+
+                <div class="motivo-info">
+
+                    <span class="motivo-nome">
+
+                        {{ item.motivo }}
+
+                    </span>
+
+
+                    <span class="motivo-valor">
+
+                        {{ item.total }} saída(s) —
+                        {{ item.porcentagem }}%
+
+                    </span>
+
+                </div>
+
+
+                <div class="aluno-motivo">
+
+                    {% for saida in item.alunos %}
+
+    <div class="aluno-motivo">
+
+        <strong>Aluno:</strong>
+        {{ saida.aluno.nome }}
+
+        <span class="data-saida">
+            Data: {{ saida.data|date:"d/m/Y" }}
+        </span>
+
+    </div>
+
+{% endfor %}
+
+                </div>
+
+
+                <div class="barra-porcentagem">
+
+                    <div
+                        class="barra-preenchida"
+                        style="width: {{ item.porcentagem }}%;">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {% empty %}
+
+            <p>
+                Nenhuma saída registrada neste mês.
+            </p>
 
             {% endfor %}
 
         </div>
 
-    </div>
 
-    <div class="grafico-legenda">
-        <span>●</span>
-        Dias com saída registrada
-    </div>
+        <!-- TOTAL DO MÊS -->
 
-</div>
+        <div class="total-mes">
 
+            <strong>
 
-    <h2>Motivos das saídas</h2>
+                Total de saídas em {{ mes }}:
+                {{ total_saidas }}
 
-    {% for item in motivos %}
-
-    <div class="motivo">
-<div class="motivo-info">
-
-    <span class="motivo-nome">
-        {{ item.motivo }}
-    </span>
-
-    <span class="motivo-valor">
-        {{ item.total }} saída(s) — {{ item.porcentagem }}%
-    </span>
-
-</div>
-
-<div style="margin-top: 10px; color: #555;">
-
-    {% for saida in item.alunos %}
-
-        <strong>Aluno:</strong> {{ saida.aluno.nome }}
-
-        {% if not forloop.last %}
-            <br>
-        {% endif %}
-
-    {% endfor %}
-
-</div>
-
-        <div class="barra-porcentagem">
-
-            <div
-                class="barra-preenchida"
-                style="width: {{ item.porcentagem }}%;">
-            </div>
+            </strong>
 
         </div>
 
-    </div>
 
-    {% empty %}
+        <!-- VOLTAR -->
 
-    <p>Nenhuma saída registrada neste mês.</p>
+        <a
+            href="{% url 'inicio' %}"
+            class="voltar">
 
-    {% endfor %}
+            ← Voltar para o painel
 
-    <div class="total">
-
-        Total de saídas no mês:
-        {{ total_saidas }}
-
-    </div>
-
-</div>
-
-<a class="voltar" href="{% url 'inicio' %}">
-    ← Voltar ao painel
-</a>
+        </a>
 
 
-</div>
+    </main>
 
 </body>
 
 </html>
-
-.grafico-card {
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 25px;
-    margin-top: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e5e7eb;
-}
-
-.grafico-cabecalho {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-.grafico-cabecalho h3 {
-    margin: 0;
-    font-size: 20px;
-    color: #14532d;
-}
-
-.grafico-cabecalho p {
-    margin: 5px 0 0;
-    color: #6b7280;
-}
-
-.grafico-total {
-    text-align: right;
-}
-
-.grafico-total strong {
-    display: block;
-    font-size: 28px;
-    color: #166534;
-}
-
-.grafico-total span {
-    color: #6b7280;
-    font-size: 13px;
-}
-
-.grafico {
-    display: flex;
-    height: 280px;
-    overflow-x: auto;
-}
-
-.eixo-y {
-    width: 35px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-bottom: 30px;
-    color: #9ca3af;
-    font-size: 12px;
-}
-
-.grafico-area {
-    position: relative;
-    flex: 1;
-    min-width: 650px;
-    border-bottom: 1px solid #d1d5db;
-}
-
-.linha-guia {
-    position: absolute;
-    left: 0;
-    right: 0;
-    border-top: 1px dashed #e5e7eb;
-}
-
-.linha-2 {
-    top: 0;
-}
-
-.linha-1 {
-    top: 50%;
-}
-
-.linha-0 {
-    bottom: 0;
-}
-
-.pontos {
-    height: 100%;
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    position: relative;
-    z-index: 2;
-}
-
-.ponto-container {
-    position: relative;
-    flex: 1;
-    min-width: 20px;
-    height: 100%;
-}
-
-.ponto {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 11px;
-    height: 11px;
-    background: #16a34a;
-    border: 3px solid #ffffff;
-    border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.35);
-}
-
-.valor-ponto {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: calc(100% - 5px);
-    background: #14532d;
-    color: white;
-    padding: 4px 7px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.dia {
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 11px;
-    color: #6b7280;
-}
-
-.grafico-legenda {
-    margin-top: 35px;
-    color: #6b7280;
-    font-size: 13px;
-    text-align: center;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

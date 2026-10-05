@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.db.models import Count
 from .models import Aluno, Saida
@@ -204,6 +205,12 @@ def diagnostico(request):
         "motivos": dados_motivos,
         "total_saidas": total_saidas,
     })
+@require_POST
+def excluir_saida(request, id):
+    saida = get_object_or_404(Saida, id=id)
+    saida.delete()
+
+    return redirect("inicio")
 
 
 

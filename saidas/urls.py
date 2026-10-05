@@ -15,4 +15,6 @@ urlpatterns = [
     path("alunos/cadastrar/", views.cadastrar_aluno, name="cadastrar_aluno"),
 
     path("diagnostico/", views.diagnostico, name="diagnostico"),
+
+    path("saida/excluir/<int:id>/", views.excluir_saida, name="excluir_saida"),
 ]
