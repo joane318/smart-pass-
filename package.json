@@ -1,0 +1,12 @@
+{
+  "name": "smart-pass",
+  "private": true,
+  "scripts": {
+    "build": "uv run python scripts/collect_static.py",
+    "deploy": "uv run pywrangler deploy",
+    "setup": "node scripts/publicar-original.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "4.147.0"
+  }
+}

@@ -1,4 +1,13 @@
 .venv/
-__pycache__/
+.wrangler/
+node_modules/
+python_modules/
+public/
+**/__pycache__/
 *.pyc
-db.sqlite3
+.cloudflare-migracao/
+.dev.vars
+backups/
+.venv-workers/
+pylock.toml
+.cloudflare-build/
