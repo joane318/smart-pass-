@@ -1,0 +1,13 @@
+{
+  "name": "smart-pass",
+  "compatibility_flags": [
+    "python_workers"
+  ],
+  "d1_databases": [
+    {
+      "binding": "smart_pass_db",
+      "database_name": "smart-pass-db",
+      "database_id": "529fdd00-1536-4125-b2cd-c8e8e2da6ca5"
+    }
+  ]
+}
