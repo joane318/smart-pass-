@@ -189,7 +189,7 @@ textarea {
     padding: 12px;
     margin-top: 7px;
     margin-bottom: 10px;
-    border: 1px solid #9fd3b5;
+    border: 1px solid #0d582c;
     border-radius: 7px;
     box-sizing: border-box;
     font-size: 15px;
@@ -198,7 +198,7 @@ textarea {
 input:focus,
 textarea:focus {
     outline: none;
-    border: 2px solid #0066cc;
+    border: 2px solid #1d72c7;
 }
 
 textarea {
@@ -219,7 +219,7 @@ table {
 }
 
 th {
-    background: #064e3b;
+    background: #07684e;
     color: white;
 }
 
