@@ -6,6 +6,33 @@ body {
     color: #123c2a;
 }
 
+/* TITULOS */
+
+h1 {
+    text-align: center;
+    font-size: 38px;
+    color: #075e3f;
+    margin-bottom: 5px;
+}
+
+h2 {
+    text-align: center;
+    color: #087f5b;
+}
+
+h3 {
+    margin-top: 25px;
+    color: #075e3f;
+}
+
+/* LINHAS */
+
+hr {
+    border: none;
+    border-top: 2px solid #b7dfc9;
+    margin: 25px 0;
+}
+
 /* MENU */
 
 .topo {
@@ -43,41 +70,21 @@ body {
     background: #0066cc;
 }
 
-/* TITULOS */
-
-h1 {
-    text-align: center;
-    font-size: 38px;
-    color: #075e3f;
-    margin-bottom: 5px;
-}
-
-h2 {
-    text-align: center;
-    color: #087f5b;
-}
-
-h3 {
-    margin-top: 25px;
-    color: #075e3f;
-}
+/* TITULO DO PAINEL */
 
 .titulo-painel {
     text-align: center;
     margin: 20px 0 30px;
 }
 
+.titulo-painel h1 {
+    margin-bottom: 5px;
+}
+
 .titulo-painel p {
     color: #0066cc;
     font-size: 17px;
-}
-
-/* LINHAS */
-
-hr {
-    border: none;
-    border-top: 2px solid #b7dfc9;
-    margin: 25px 0;
+    margin-top: 5px;
 }
 
 /* CARDS */
@@ -189,7 +196,7 @@ textarea {
     padding: 12px;
     margin-top: 7px;
     margin-bottom: 10px;
-    border: 1px solid #0d582c;
+    border: 1px solid #9fd3b5;
     border-radius: 7px;
     box-sizing: border-box;
     font-size: 15px;
@@ -198,7 +205,7 @@ textarea {
 input:focus,
 textarea:focus {
     outline: none;
-    border: 2px solid #1d72c7;
+    border: 2px solid #0066cc;
 }
 
 textarea {
@@ -219,8 +226,9 @@ table {
 }
 
 th {
-    background: #07684e;
+    background: #064e3b;
     color: white;
+    font-weight: bold;
 }
 
 th,
@@ -257,6 +265,11 @@ tr:hover {
         width: 100%;
     }
 
+    .topo nav a {
+        width: auto;
+        text-align: center;
+    }
+
     .cards {
         flex-direction: column;
         align-items: center;
@@ -270,6 +283,10 @@ tr:hover {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
+    }
+
+    form {
+        width: 90%;
     }
 
     h1 {
